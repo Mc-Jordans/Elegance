@@ -51,7 +51,7 @@ export const instagramPosts: SocialMediaPost[] = [
   },
   {
     id: 'insta-4',
-    image: 'https://images.pexels.com/photos/5560775/pexels-photo-5560775.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.IKgr2pDuy6upQLdC3wGBkwHaEK%26pid%3DApi&f=1&ipt=309aae1b0d6276d2fb7dae1cb4566773eee717e15acc79ced57610910042c4cf&ipo=images',
     caption: 'Our signature Sobolo drink, perfect for the hot weather! #Sobolo #RefreshingDrinks',
     likes: 927,
     url: '#'
