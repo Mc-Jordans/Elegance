@@ -22,10 +22,7 @@ const FeaturedDishes = () => {
     const slider = sliderRef.current;
     if (slider) {
       slider.addEventListener('scroll', checkScrollability);
-      // Initial check
       checkScrollability();
-      
-      // Check on resize
       window.addEventListener('resize', checkScrollability);
       
       return () => {
@@ -56,8 +53,8 @@ const FeaturedDishes = () => {
           </h2>
           <div className="w-20 h-1 bg-secondary-500 mx-auto mb-6"></div>
           <p className="text-gray-600 max-w-3xl mx-auto">
-            Discover our chef's carefully curated selection of signature dishes that highlight 
-            our commitment to exceptional ingredients and innovative techniques.
+            Explore our chef's selection of traditional Ghanaian dishes, prepared with 
+            locally sourced ingredients and authentic recipes passed down through generations.
           </p>
         </div>
         
@@ -110,7 +107,7 @@ const FeaturedDishes = () => {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <h3 className="font-display text-xl text-dark">{item.name}</h3>
-                  <span className="text-secondary-600 font-bold">${item.price}</span>
+                  <span className="text-secondary-600 font-bold">₵{item.price}</span>
                 </div>
                 <p className="text-gray-600 mb-4">{item.description}</p>
                 {item.dietary && (
