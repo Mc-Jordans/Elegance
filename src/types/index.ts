@@ -1,74 +1,51 @@
-export interface MenuItem {
+export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
   image: string;
-  category: MenuCategory;
-  dietary?: string[];
+  category: string;
+  stock: number;
+  rating: number;
+  reviews: number;
   featured?: boolean;
-  seasonal?: boolean;
 }
 
-export type MenuCategory = 'appetizers' | 'mains' | 'desserts' | 'beverages';
+export interface CartItem extends Product {
+  quantity: number;
+}
 
-export interface RestaurantLocation {
+export interface User {
   id: string;
-  name: string;
-  address: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  items: CartItem[];
+  status: 'pending' | 'processing' | 'shipped' | 'delivered';
+  total: number;
+  shippingAddress: Address;
+  createdAt: string;
+}
+
+export interface Address {
+  street: string;
   city: string;
   state: string;
-  zip: string;
-  phone: string;
-  email: string;
-  hours: {
-    monday: string;
-    tuesday: string;
-    wednesday: string;
-    thursday: string;
-    friday: string;
-    saturday: string;
-    sunday: string;
-  };
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-  hasPrivateDining: boolean;
-  parkingInfo: string;
-  image: string;
+  zipCode: string;
+  country: string;
 }
 
 export interface Review {
   id: string;
-  name: string;
+  productId: string;
+  userId: string;
   rating: number;
   comment: string;
-  date: string;
-  location: string;
-}
-
-export interface NewsItem {
-  id: string;
-  title: string;
-  summary: string;
-  date: string;
-  image: string;
-  url: string;
-}
-
-export interface SocialMediaPost {
-  id: string;
-  image: string;
-  caption: string;
-  likes: number;
-  url: string;
-}
-
-export interface OrderItem extends MenuItem {
-  quantity: number;
-  specialInstructions?: string;
-  options?: {
-    [key: string]: string | boolean;
-  };
+  createdAt: string;
 }
