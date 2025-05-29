@@ -3,26 +3,26 @@ import { NewsItem, SocialMediaPost } from '../types';
 export const newsItems: NewsItem[] = [
   {
     id: 'news-1',
-    title: 'New Seasonal Summer Menu Unveiled',
-    summary: 'Chef Michel introduces our new summer menu featuring the freshest seasonal ingredients sourced from local farms.',
+    title: 'New Ashanti Region Specialties Added',
+    summary: 'Chef Kwame introduces traditional Ashanti dishes featuring locally sourced ingredients from Kumasi Central Market.',
     date: '2024-08-01',
-    image: 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg',
     url: '#'
   },
   {
     id: 'news-2',
-    title: 'Elegance Awarded Michelin Star',
-    summary: 'We are honored to receive our first Michelin star, recognizing our commitment to culinary excellence.',
+    title: 'Aduanipa Wins Best Traditional Restaurant Award',
+    summary: 'We are honored to receive the prestigious Ghana Tourism Authority award for excellence in traditional cuisine.',
     date: '2024-07-15',
-    image: 'https://images.pexels.com/photos/4253320/pexels-photo-4253320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: 'https://images.pexels.com/photos/5560767/pexels-photo-5560767.jpeg',
     url: '#'
   },
   {
     id: 'news-3',
-    title: 'Wine Tasting Event: August 20th',
-    summary: 'Join our sommelier for an exclusive wine tasting featuring premium selections from small French vineyards.',
+    title: 'Palm Wine Tasting Event: August 20th',
+    summary: 'Join our palm wine expert for an exclusive tasting featuring selections from the best tappers in the Eastern Region.',
     date: '2024-07-10',
-    image: 'https://images.pexels.com/photos/1123260/pexels-photo-1123260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: 'https://images.pexels.com/photos/5560770/pexels-photo-5560770.jpeg',
     url: '#'
   }
 ];
@@ -30,43 +30,43 @@ export const newsItems: NewsItem[] = [
 export const instagramPosts: SocialMediaPost[] = [
   {
     id: 'insta-1',
-    image: 'https://images.pexels.com/photos/1109197/pexels-photo-1109197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    caption: 'Our signature chocolate soufflé, made with 70% dark chocolate and served with vanilla bean ice cream. #DessertHeaven',
+    image: 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg',
+    caption: 'Our signature Jollof rice with grilled chicken and plantains. #GhanaianFood #Jollof',
     likes: 834,
     url: '#'
   },
   {
     id: 'insta-2',
-    image: 'https://images.pexels.com/photos/299348/pexels-photo-299348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    caption: 'Behind the scenes with our chefs preparing for tonight\'s special tasting menu. #ChefLife',
+    image: 'https://images.pexels.com/photos/5560767/pexels-photo-5560767.jpeg',
+    caption: 'Behind the scenes with our chefs preparing fresh Banku. #GhanaianCuisine #ChefLife',
     likes: 752,
     url: '#'
   },
   {
     id: 'insta-3',
-    image: 'https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    caption: 'Freshly harvested heirloom tomatoes from our partner farm. These will be featured in tonight\'s special. #FarmToTable',
+    image: 'https://images.pexels.com/photos/5560770/pexels-photo-5560770.jpeg',
+    caption: 'Fresh ingredients from Makola Market for today\'s special. #FarmToTable #GhanaianSpices',
     likes: 615,
     url: '#'
   },
   {
     id: 'insta-4',
-    image: 'https://images.pexels.com/photos/1307658/pexels-photo-1307658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    caption: 'Our signature cocktail: "Elegance Elixir" with premium gin, elderflower, and fresh cucumber. #CocktailHour',
+    image: 'https://images.pexels.com/photos/5560775/pexels-photo-5560775.jpeg',
+    caption: 'Our signature Sobolo drink, perfect for the hot weather! #Sobolo #RefreshingDrinks',
     likes: 927,
     url: '#'
   },
   {
     id: 'insta-5',
-    image: 'https://images.pexels.com/photos/541216/pexels-photo-541216.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    caption: 'Private dining room set up for tonight\'s special event. The perfect setting for an unforgettable evening. #PrivateDining',
+    image: 'https://images.pexels.com/photos/5560780/pexels-photo-5560780.jpeg',
+    caption: 'Private dining room decorated with traditional Kente cloth. #GhanaianCulture #PrivateDining',
     likes: 703,
     url: '#'
   },
   {
     id: 'insta-6',
-    image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    caption: 'Sunday brunch vibes with our famous eggs benedict and mimosas. #BrunchGoals',
+    image: 'https://images.pexels.com/photos/5560785/pexels-photo-5560785.jpeg',
+    caption: 'Sunday brunch featuring Hausa Koko and Koose. #GhanaianBreakfast #BrunchGoals',
     likes: 842,
     url: '#'
   }

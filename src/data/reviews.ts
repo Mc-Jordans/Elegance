@@ -3,42 +3,42 @@ import { Review } from '../types';
 export const reviews: Review[] = [
   {
     id: 'rev-1',
-    name: 'Samantha C.',
+    name: 'Kwame A.',
     rating: 5,
-    comment: 'The tasting menu was a culinary journey! Each course was beautifully presented and perfectly executed. The sommelier\'s wine pairings were inspired. Truly a memorable dining experience.',
+    comment: 'The Jollof rice was perfectly spiced and the grilled chicken was succulent. The palm wine was fresh and sweet. Truly authentic Ghanaian flavors!',
     date: '2024-08-15',
-    location: 'Manhattan'
+    location: 'Accra'
   },
   {
     id: 'rev-2',
-    name: 'Michael T.',
+    name: 'Abena K.',
     rating: 5,
-    comment: 'Exceptional service from start to finish. Our server was knowledgeable and attentive without being intrusive. The filet mignon was cooked to perfection, and the chocolate fondant was divine.',
+    comment: 'Best Waakye in town! The shito is perfectly spiced and the portion sizes are generous. The service was excellent and the ambiance is beautiful.',
     date: '2024-08-10',
-    location: 'San Francisco'
+    location: 'Kumasi'
   },
   {
     id: 'rev-3',
-    name: 'Emma R.',
+    name: 'Yaw M.',
     rating: 4,
-    comment: 'Elegant ambiance and excellent food. The seafood platter was fresh and delicious. Only giving 4 stars because the dessert was good but not extraordinary. Will definitely return!',
+    comment: 'The Banku and Tilapia was fresh and delicious. The pepper sauce had the perfect kick. Only giving 4 stars because the wait time was a bit long.',
     date: '2024-08-05',
-    location: 'Chicago'
+    location: 'Tamale'
   },
   {
     id: 'rev-4',
-    name: 'David L.',
+    name: 'Efua S.',
     rating: 5,
-    comment: 'We celebrated our anniversary here and were blown away. The chef\'s attention to detail is remarkable. The truffle risotto is a must-try, and the wine list is expertly curated.',
+    comment: 'We celebrated our traditional engagement ceremony here and the food was outstanding. The Fufu with goat light soup is a must-try!',
     date: '2024-07-28',
-    location: 'Manhattan'
+    location: 'Accra'
   },
   {
     id: 'rev-5',
-    name: 'Jessica M.',
+    name: 'Kofi B.',
     rating: 5,
-    comment: 'The private dining experience was worth every penny. Our group was treated to a customized menu that accommodated all dietary restrictions without compromising on taste or presentation.',
+    comment: 'The private dining experience was exceptional. Our group enjoyed the traditional palm wine and the kelewele was perfectly spiced.',
     date: '2024-07-22',
-    location: 'San Francisco'
+    location: 'Kumasi'
   }
 ];
