@@ -6,15 +6,15 @@ export const newsItems: NewsItem[] = [
     title: 'New Ashanti Region Specialties Added',
     summary: 'Chef Kwame introduces traditional Ashanti dishes featuring locally sourced ingredients from Kumasi Central Market.',
     date: '2024-08-01',
-    image: 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.9BvBiHrXVh-vtQ28GTnbagHaEn%3Fpid%3DApi&f=1&ipt=b664e71e5e3d374b8afecfbdbdc7265aa3801d3270348c17ac9a32249210d0dc&ipo=images',
     url: '#'
   },
   {
     id: 'news-2',
-    title: 'Aduanipa Wins Best Traditional Restaurant Award',
+    title: 'Elegance Wins Best Traditional Restaurant Award',
     summary: 'We are honored to receive the prestigious Ghana Tourism Authority award for excellence in traditional cuisine.',
     date: '2024-07-15',
-    image: 'https://images.pexels.com/photos/5560767/pexels-photo-5560767.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.0ieYJSbXWPzyOJKqPoE_2gHaEw%26pid%3DApi&f=1&ipt=89784fea8d4c1f53a2becb85ae51b730674c10d9077a4137852a8825275a85d0&ipo=images',
     url: '#'
   },
   {
@@ -22,7 +22,7 @@ export const newsItems: NewsItem[] = [
     title: 'Palm Wine Tasting Event: August 20th',
     summary: 'Join our palm wine expert for an exclusive tasting featuring selections from the best tappers in the Eastern Region.',
     date: '2024-07-10',
-    image: 'https://images.pexels.com/photos/5560770/pexels-photo-5560770.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.ZupEORMMbdz8Ii_B8C2M5AHaEO%26pid%3DApi&f=1&ipt=8593ce249a53276340889f273a5c36d1b6765ee265006e3782adce28a9b92916&ipo=imagesg',
     url: '#'
   }
 ];

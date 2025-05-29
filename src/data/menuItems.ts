@@ -4,7 +4,7 @@ export const menuItems: MenuItem[] = [
   // Appetizers
   {
     id: 'app-1',
-    name: 'Kelewele',
+    name: 'Fried rice with shrimps',
     description: 'Spiced ripe plantains seasoned with ginger, garlic, and chili peppers, diced and fried to golden perfection',
     price: 15,
     image: 'https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg',
@@ -46,7 +46,7 @@ export const menuItems: MenuItem[] = [
     name: 'Jollof Rice with Grilled Chicken',
     description: 'Aromatic rice cooked in rich tomato sauce with herbs and spices, served with grilled chicken and fried plantains',
     price: 65,
-    image: 'https://images.pexels.com/photos/7426864/pexels-photo-7426864.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.stUMS3ITpC70ykP0nceEgAHaHa%26pid%3DApi&f=1&ipt=e37bd07bd6ff1b6784f6e7369ad194c12c4dd1c60d55b402d0f27034b39b21f1&ipo=images',
     category: 'mains',
     featured: true
   },
