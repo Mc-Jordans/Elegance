@@ -34,7 +34,7 @@ export const menuItems: MenuItem[] = [
     name: 'Yam Chips',
     description: 'Crispy fried yam chips served with spicy shito sauce',
     price: 20,
-    image: 'https://images.pexels.com/photos/7426864/pexels-photo-7426864.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.mD5JMtb8vCNX6f2eGqw6fgHaHa%26pid%3DApi&f=1&ipt=bb6eb68644c4adba7f4dce01bf57b433b2eb3e5ec205eefaddec8b360d96f968&ipo=images',
     category: 'appetizers',
     dietary: ['V', 'GF'],
     seasonal: true
