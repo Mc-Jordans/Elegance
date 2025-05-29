@@ -6,27 +6,31 @@ const Newsletter = () => {
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would connect to an API
     setIsSubmitted(true);
     setEmail('');
   };
   
   return (
-    <section className="py-20 bg-primary-900 text-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-primary-900 text-white relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10" style={{ 
+        backgroundImage: "url('https://images.pexels.com/photos/5560780/pexels-photo-5560780.jpeg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}></div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-display mb-6">
-            Subscribe to Our Newsletter
+            Join Our Aduanipa Family
           </h2>
           <p className="text-primary-200 mb-8">
-            Join our mailing list to receive updates on special events, seasonal menus, and exclusive offers. Be the first to know about what's happening at Elegance.
+            Subscribe to receive updates about our special events, new menu items, and cultural celebrations. Be the first to know about our traditional food festivals and seasonal offerings.
           </p>
           
           {isSubmitted ? (
             <div className="bg-primary-800 p-6 rounded-lg">
-              <h3 className="text-xl font-display mb-2">Thank You for Subscribing!</h3>
+              <h3 className="text-xl font-display mb-2">Medaase! (Thank You!)</h3>
               <p className="text-primary-200">
-                You've been added to our mailing list. Get ready to receive exclusive updates from Elegance.
+                You've been added to our family. Get ready to receive exclusive updates from Aduanipa.
               </p>
             </div>
           ) : (
@@ -49,8 +53,16 @@ const Newsletter = () => {
           )}
           
           <p className="text-primary-400 text-sm mt-4">
-            We respect your privacy. Unsubscribe at any time.
+            We value your privacy. You can unsubscribe at any time.
           </p>
+          
+          <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-primary-300">
+            <a href="#" className="hover:text-white transition-colors">WhatsApp Updates</a>
+            <span>•</span>
+            <a href="#" className="hover:text-white transition-colors">SMS Notifications</a>
+            <span>•</span>
+            <a href="#" className="hover:text-white transition-colors">Mobile App</a>
+          </div>
         </div>
       </div>
     </section>
