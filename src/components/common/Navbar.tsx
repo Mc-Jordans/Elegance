@@ -41,7 +41,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
           <NavLink to="/" className="flex items-center space-x-2 font-display text-2xl">
             <ChefHat className="h-8 w-8" />
-            <span>Aduanipa</span>
+            <span>Elegance</span>
           </NavLink>
           
           <nav className="hidden md:flex items-center space-x-8">
