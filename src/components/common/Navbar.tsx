@@ -6,7 +6,6 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll effect for navbar
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -40,16 +39,14 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
           <NavLink to="/" className="flex items-center space-x-2 font-display text-2xl">
             <ChefHat className="h-8 w-8" />
-            <span>Elegance</span>
+            <span>Aduanipa</span>
           </NavLink>
           
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <NavLink to="/" className={navLinkClasses}>Home</NavLink>
-            <NavLink to="/menu" className={navLinkClasses}>Menu</NavLink>
+            <NavLink to="/" className={navLinkClasses}>Fie (Home)</NavLink>
+            <NavLink to="/menu" className={navLinkClasses}>Aduane (Menu)</NavLink>
             <NavLink to="/order" className={navLinkClasses}>Order Online</NavLink>
             <NavLink to="/locations" className={navLinkClasses}>Locations</NavLink>
             <NavLink to="/feedback" className={navLinkClasses}>Feedback</NavLink>
@@ -61,7 +58,6 @@ const Navbar = () => {
             </a>
           </nav>
           
-          {/* Mobile Menu Button */}
           <button 
             className="md:hidden text-current"
             onClick={toggleMenu}
@@ -72,7 +68,6 @@ const Navbar = () => {
         </div>
       </div>
       
-      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-dark bg-opacity-95 text-white">
           <div className="container mx-auto px-4 py-4">
@@ -82,14 +77,14 @@ const Navbar = () => {
                 className={({ isActive }) => `block py-2 px-4 ${isActive ? 'text-secondary-500' : 'text-current'} hover:text-secondary-500`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Home
+                Fie (Home)
               </NavLink>
               <NavLink 
                 to="/menu" 
                 className={({ isActive }) => `block py-2 px-4 ${isActive ? 'text-secondary-500' : 'text-current'} hover:text-secondary-500`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Menu
+                Aduane (Menu)
               </NavLink>
               <NavLink 
                 to="/order" 

@@ -3,80 +3,80 @@ import { RestaurantLocation } from '../types';
 export const locations: RestaurantLocation[] = [
   {
     id: 'loc-1',
-    name: 'Elegance Manhattan',
-    address: '123 Gourmet Avenue',
-    city: 'New York',
-    state: 'NY',
-    zip: '10001',
-    phone: '(212) 555-1234',
-    email: 'manhattan@elegance.com',
+    name: 'Aduanipa Accra',
+    address: '15 Independence Avenue',
+    city: 'Accra',
+    state: 'Greater Accra',
+    zip: '00233',
+    phone: '+233 20 123 4567',
+    email: 'accra@aduanipa.com',
     hours: {
-      monday: '11:30 AM - 10:00 PM',
-      tuesday: '11:30 AM - 10:00 PM',
-      wednesday: '11:30 AM - 10:00 PM',
-      thursday: '11:30 AM - 10:00 PM',
-      friday: '11:30 AM - 11:00 PM',
-      saturday: '11:30 AM - 11:00 PM',
-      sunday: '10:30 AM - 9:00 PM'
+      monday: '11:00 - 22:00',
+      tuesday: '11:00 - 22:00',
+      wednesday: '11:00 - 22:00',
+      thursday: '11:00 - 22:00',
+      friday: '11:00 - 23:00',
+      saturday: '11:00 - 23:00',
+      sunday: '12:00 - 21:00'
     },
     coordinates: {
-      lat: 40.7128,
-      lng: -74.0060
+      lat: 5.6037,
+      lng: -0.1870
     },
     hasPrivateDining: true,
-    parkingInfo: 'Valet parking available for $20. Public parking garage located one block away.',
-    image: 'https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    parkingInfo: 'Secure parking available on premises. Valet service available.',
+    image: 'https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg'
   },
   {
     id: 'loc-2',
-    name: 'Elegance San Francisco',
-    address: '456 Culinary Boulevard',
-    city: 'San Francisco',
-    state: 'CA',
-    zip: '94103',
-    phone: '(415) 555-6789',
-    email: 'sanfrancisco@elegance.com',
+    name: 'Aduanipa Kumasi',
+    address: '10 Harper Road, Ahodwo',
+    city: 'Kumasi',
+    state: 'Ashanti Region',
+    zip: '00233',
+    phone: '+233 20 234 5678',
+    email: 'kumasi@aduanipa.com',
     hours: {
-      monday: '11:30 AM - 10:00 PM',
-      tuesday: '11:30 AM - 10:00 PM',
-      wednesday: '11:30 AM - 10:00 PM',
-      thursday: '11:30 AM - 10:00 PM',
-      friday: '11:30 AM - 11:00 PM',
-      saturday: '11:30 AM - 11:00 PM',
-      sunday: '10:30 AM - 9:00 PM'
+      monday: '11:00 - 22:00',
+      tuesday: '11:00 - 22:00',
+      wednesday: '11:00 - 22:00',
+      thursday: '11:00 - 22:00',
+      friday: '11:00 - 23:00',
+      saturday: '11:00 - 23:00',
+      sunday: '12:00 - 21:00'
     },
     coordinates: {
-      lat: 37.7749,
-      lng: -122.4194
+      lat: 6.6885,
+      lng: -1.6244
     },
     hasPrivateDining: true,
-    parkingInfo: 'Validated parking available at the Union Square Garage.',
-    image: 'https://images.pexels.com/photos/2290753/pexels-photo-2290753.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    parkingInfo: 'Free parking available in front of restaurant.',
+    image: 'https://images.pexels.com/photos/2290753/pexels-photo-2290753.jpeg'
   },
   {
     id: 'loc-3',
-    name: 'Elegance Chicago',
-    address: '789 Flavor Street',
-    city: 'Chicago',
-    state: 'IL',
-    zip: '60611',
-    phone: '(312) 555-9012',
-    email: 'chicago@elegance.com',
+    name: 'Aduanipa Tamale',
+    address: '5 Dagomba Road',
+    city: 'Tamale',
+    state: 'Northern Region',
+    zip: '00233',
+    phone: '+233 20 345 6789',
+    email: 'tamale@aduanipa.com',
     hours: {
-      monday: '11:30 AM - 10:00 PM',
-      tuesday: '11:30 AM - 10:00 PM',
-      wednesday: '11:30 AM - 10:00 PM',
-      thursday: '11:30 AM - 10:00 PM',
-      friday: '11:30 AM - 11:00 PM',
-      saturday: '11:30 AM - 11:00 PM',
-      sunday: '10:30 AM - 9:00 PM'
+      monday: '11:00 - 22:00',
+      tuesday: '11:00 - 22:00',
+      wednesday: '11:00 - 22:00',
+      thursday: '11:00 - 22:00',
+      friday: '11:00 - 23:00',
+      saturday: '11:00 - 23:00',
+      sunday: '12:00 - 21:00'
     },
     coordinates: {
-      lat: 41.8781,
-      lng: -87.6298
+      lat: 9.4067,
+      lng: -0.8393
     },
     hasPrivateDining: true,
-    parkingInfo: 'Valet parking available. Several public parking options within walking distance.',
-    image: 'https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    parkingInfo: 'Ample parking space available.',
+    image: 'https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg'
   }
 ];
