@@ -10,12 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@stripe/stripe-js": "^3.0.7",
+    "@supabase/supabase-js": "^2.39.7",
+    "axios": "^1.6.7",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.0",
+    "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.23.1",
-    "swiper": "^11.0.6"
+    "stripe": "^14.19.0",
+    "swiper": "^11.0.6",
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
