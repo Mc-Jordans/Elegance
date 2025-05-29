@@ -51,21 +51,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <h3 className="font-medium text-gray-900 mb-2">{product.name}</h3>
         <p className="text-gray-500 text-sm mb-4 line-clamp-2">{product.description}</p>
         
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-6">
           <span className="text-lg font-semibold text-gray-900">
             {formatCurrency(product.price)}
           </span>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center border border-gray-300 rounded-md">
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="p-1 rounded-md border border-gray-300 hover:bg-gray-100"
+              className="px-3 py-1 hover:bg-gray-100 transition-colors"
             >
               -
             </button>
-            <span className="w-8 text-center">{quantity}</span>
+            <span className="px-3 py-1 border-x border-gray-300">{quantity}</span>
             <button
               onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-              className="p-1 rounded-md border border-gray-300 hover:bg-gray-100"
+              className="px-3 py-1 hover:bg-gray-100 transition-colors"
             >
               +
             </button>
@@ -75,7 +75,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <button
           onClick={handleAddToCart}
           disabled={product.stock === 0}
-          className={`w-full py-2 px-4 rounded-md flex items-center justify-center space-x-2 transition-colors ${
+          className={`w-full py-3 rounded-md flex items-center justify-center space-x-2 transition-colors ${
             product.stock === 0
               ? 'bg-gray-200 cursor-not-allowed'
               : 'bg-primary-600 hover:bg-primary-700 text-white'
