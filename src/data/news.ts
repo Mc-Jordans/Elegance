@@ -30,21 +30,21 @@ export const newsItems: NewsItem[] = [
 export const instagramPosts: SocialMediaPost[] = [
   {
     id: 'insta-1',
-    image: 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.KKn4zNwM8j_QTVI33DT6QAHaGi%26pid%3DApi&f=1&ipt=d6f91f71edecd947828ac84c11a34d834c5b8dd1fc6b6c474839cb638fdd4637&ipo=images',
     caption: 'Our signature Jollof rice with grilled chicken and plantains. #GhanaianFood #Jollof',
     likes: 834,
     url: '#'
   },
   {
     id: 'insta-2',
-    image: 'https://images.pexels.com/photos/5560767/pexels-photo-5560767.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.sI14Rh8Vb1JWFKBoFrAssQHaEK%26pid%3DApi&f=1&ipt=a465944bb99e693fbda7baa7e8a38c140ca0724b135bfbf6ff70268260ae29f6&ipo=images',
     caption: 'Behind the scenes with our chefs preparing fresh Banku. #GhanaianCuisine #ChefLife',
     likes: 752,
     url: '#'
   },
   {
     id: 'insta-3',
-    image: 'https://images.pexels.com/photos/5560770/pexels-photo-5560770.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%2Fid%2FOIP.D9O_ZtDXwSus9g8h5yHbPAHaE7%3Fpid%3DApi&f=1&ipt=02a05b0e5cb8e929d439dc0c53f9ac610ffb60b365f09365e883a9ed1ec4e2d8&ipo=images',
     caption: 'Fresh ingredients from Makola Market for today\'s special. #FarmToTable #GhanaianSpices',
     likes: 615,
     url: '#'
@@ -58,14 +58,14 @@ export const instagramPosts: SocialMediaPost[] = [
   },
   {
     id: 'insta-5',
-    image: 'https://images.pexels.com/photos/5560780/pexels-photo-5560780.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.p7bi1L3vjws92mZ2OJWE5gHaHa%26pid%3DApi&f=1&ipt=59934c18253f3080ec11a03f561c4b0bc9adb9ab41717781bc713b52fa2201f6&ipo=images',
     caption: 'Private dining room decorated with traditional Kente cloth. #GhanaianCulture #PrivateDining',
     likes: 703,
     url: '#'
   },
   {
     id: 'insta-6',
-    image: 'https://images.pexels.com/photos/5560785/pexels-photo-5560785.jpeg',
+    image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.FElYNZpKp_iLO6A5r28ElwHaEK%26pid%3DApi&f=1&ipt=865926cf47b9fcc5436bdbf852fe8d7617030b70067154783a4d44c802b1012d&ipo=images',
     caption: 'Sunday brunch featuring Hausa Koko and Koose. #GhanaianBreakfast #BrunchGoals',
     likes: 842,
     url: '#'

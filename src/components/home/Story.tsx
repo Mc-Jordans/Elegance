@@ -8,7 +8,7 @@ const Story = () => {
           <div className="w-full md:w-1/2">
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/5560767/pexels-photo-5560767.jpeg"
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.NHX47Ch2w6OMuoXxmNeEkwAAAA%26pid%3DApi&f=1&ipt=da9a2a33dbfbb849358cfa8cbad1bc0c8f3b4f138d1a7bf6d960847f6dc7d9f6&ipo=images"
                 alt="Chef preparing traditional Ghanaian dish"
                 className="rounded-lg shadow-lg w-full h-auto object-cover"
                 style={{ height: '500px' }}
@@ -27,10 +27,10 @@ const Story = () => {
               Our Story
             </h2>
             <p className="text-gray-700 mb-6">
-              Founded in 2010 by renowned Chef Kwame Mensah, Aduanipa was born from a passion for preserving and celebrating Ghana's rich culinary traditions. What began as a small chop bar in Osu has evolved into one of the most celebrated dining destinations across Ghana.
+              Founded in 2010 by renowned Chef Kwame Mensah, Elegance was born from a passion for preserving and celebrating Ghana's rich culinary traditions. What began as a small chop bar in Osu has evolved into one of the most celebrated dining destinations across Ghana.
             </p>
             <p className="text-gray-700 mb-6">
-              At Aduanipa, we believe that exceptional Ghanaian cuisine starts with the finest local ingredients. We partner with farmers from Aburi and fishermen from Jamestown to ensure that every dish showcases the best seasonal produce and freshly caught seafood.
+              At Elegance, we believe that exceptional Ghanaian cuisine starts with the finest local ingredients. We partner with farmers from Aburi and fishermen from Jamestown to ensure that every dish showcases the best seasonal produce and freshly caught seafood.
             </p>
             <p className="text-gray-700">
               Our philosophy is simple: honor traditional recipes while embracing modern techniques. Each dish tells a story of our heritage and provides a unique sensory journey for our guests. From our signature Jollof rice to our perfectly spiced Kelewele, we invite you to experience the authentic flavors that define Ghanaian cuisine.
