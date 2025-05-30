@@ -3,7 +3,7 @@ import { RestaurantLocation } from '../types';
 export const locations: RestaurantLocation[] = [
   {
     id: 'loc-1',
-    name: 'Aduanipa Accra',
+    name: 'Elegance Accra',
     address: '15 Independence Avenue',
     city: 'Accra',
     state: 'Greater Accra',
@@ -29,7 +29,7 @@ export const locations: RestaurantLocation[] = [
   },
   {
     id: 'loc-2',
-    name: 'Aduanipa Kumasi',
+    name: 'Elegance Kumasi',
     address: '10 Harper Road, Ahodwo',
     city: 'Kumasi',
     state: 'Ashanti Region',
@@ -55,7 +55,7 @@ export const locations: RestaurantLocation[] = [
   },
   {
     id: 'loc-3',
-    name: 'Aduanipa Tamale',
+    name: 'Elegance Tamale',
     address: '5 Dagomba Road',
     city: 'Tamale',
     state: 'Northern Region',
