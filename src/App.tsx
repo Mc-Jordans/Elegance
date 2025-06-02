@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
+import AdminLayout from './components/admin/AdminLayout';
 
 // Pages
 import Home from './pages/Home';
@@ -11,17 +12,36 @@ import Locations from './pages/Locations';
 import Feedback from './pages/Feedback';
 import NotFound from './pages/NotFound';
 
+// Admin Pages
+import AdminLogin from './pages/admin/Login';
+import AdminDashboard from './pages/admin/Dashboard';
+import ProductManagement from './pages/admin/ProductManagement';
+import ContentManagement from './pages/admin/ContentManagement';
+import Analytics from './pages/admin/Analytics';
+
 function App() {
   return (
     <Routes>
+      {/* Main Site Routes */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="menu" element={<Menu />} />
         <Route path="order" element={<OrderOnline />} />
         <Route path="locations" element={<Locations />} />
         <Route path="feedback" element={<Feedback />} />
-        <Route path="*" element={<NotFound />} />
       </Route>
+
+      {/* Admin Routes */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="products" element={<ProductManagement />} />
+        <Route path="content" element={<ContentManagement />} />
+        <Route path="analytics" element={<Analytics />} />
+      </Route>
+
+      {/* 404 Route */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
