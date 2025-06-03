@@ -1,11 +1,13 @@
 import { supabase } from './supabase';
 
 export async function checkAdminAccess(userId: string) {
-  const { data, error } = await supabase
-    .from('admin_users')
-    .select('id, role')
-    .eq('user_id', userId)
-    .single();
+ const { data, error } = await supabase
+  .from('admin_users')
+  .select('id, role')
+  .eq('user_id', userId)
+  .maybeSingle();
+
+  console.log('Checking admin access for:', userId);
 
   if (error) {
     console.error('Error checking admin access:', error);
