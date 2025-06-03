@@ -1,7 +1,7 @@
 import { supabase } from './supabase';
 
 const HARDCODED_ADMIN = {
-  username: "admin@elegance",
+  username: "admin@elegance.com",
   password: "password123", // Change this to something less obvious in real use!
   role: "superadmin",
   id: "local-admin"
