@@ -1,10 +1,11 @@
 import  { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X, ChefHat } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +22,17 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  
+  const handleReservationClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate('/');
+    setTimeout(() => {
+      const element = document.getElementById('reservations');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -50,12 +62,12 @@ const Navbar = () => {
             <NavLink to="/order" className={navLinkClasses}>Order Online</NavLink>
             <NavLink to="/locations" className={navLinkClasses}>Locations</NavLink>
             <NavLink to="/feedback" className={navLinkClasses}>Feedback</NavLink>
-            <a 
-              href="#reservations" 
+            <button 
+              onClick={handleReservationClick}
               className="px-6 py-2 rounded-md bg-secondary-500 hover:bg-secondary-600 text-dark font-medium transition duration-300"
             >
               Reserve Table
-            </a>
+            </button>
           </nav>
           
           <button 
@@ -107,13 +119,15 @@ const Navbar = () => {
               >
                 Feedback
               </NavLink>
-              <a 
-                href="#reservations" 
-                className="block py-2 px-4 mt-2 rounded-md bg-secondary-500 text-center text-dark font-medium"
-                onClick={() => setIsMenuOpen(false)}
+              <button 
+                className="block w-full py-2 px-4 mt-2 rounded-md bg-secondary-500 text-center text-dark font-medium"
+                onClick={(e) => {
+                  setIsMenuOpen(false);
+                  handleReservationClick(e);
+                }}
               >
                 Reserve Table
-              </a>
+              </button>
             </nav>
           </div>
         </div>

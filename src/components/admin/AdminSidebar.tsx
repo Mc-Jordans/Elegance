@@ -26,6 +26,11 @@ export default function AdminSidebar() {
       icon: LayoutDashboard
     },
     {
+      title: 'Reservations',
+      path: '/admin/reservations',
+      icon: Users
+    },
+    {
       title: 'Products',
       path: '/admin/products',
       icon: Package

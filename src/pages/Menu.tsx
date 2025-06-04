@@ -65,17 +65,17 @@ export default function Menu() {
   return (
     <>
       {/* Hero Section */}
-      <div className="relative bg-primary-50 py-16 mb-8">
+      <div className="relative py-16 mb-8">
         <div className="absolute inset-0 overflow-hidden">
           <img 
             src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg" 
             alt="Menu background" 
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover "
           />
-          <div className="absolute inset-0 bg-primary-900 bg-opacity-30"></div>
+          <div className="absolute inset-0 bg-slate-900 opacity-40"></div>
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Menu</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mt-10 mb-4">Our Menu</h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Discover our carefully crafted dishes made with the freshest ingredients. 
             From appetizers to desserts, there's something for everyone.

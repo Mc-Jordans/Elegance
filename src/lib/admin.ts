@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from './supabaseClient';
 import { toast } from 'react-hot-toast';
 
 // Admin authentication and authorization
