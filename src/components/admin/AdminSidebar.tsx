@@ -5,7 +5,9 @@ import {
   FileText, 
   BarChart, 
   Settings,
-  LogOut
+  LogOut,
+  ShoppingBag,
+  Users
 } from 'lucide-react';
 import { useAuthContext } from '../../contexts/AuthContext';
 
@@ -29,9 +31,19 @@ export default function AdminSidebar() {
       icon: Package
     },
     {
+      title: 'Orders',
+      path: '/admin/orders',
+      icon: ShoppingBag
+    },
+    {
       title: 'Content',
       path: '/admin/content',
       icon: FileText
+    },
+    {
+      title: 'Customers',
+      path: '/admin/customers',
+      icon: Users
     },
     {
       title: 'Analytics',
@@ -46,7 +58,7 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <div className="w-64 bg-white h-full border-r border-gray-200">
+    <div className="w-64 bg-white h-screen border-r border-gray-200 overflow-y-auto fixed">
       <div className="p-6">
         <h2 className="text-xl font-semibold text-gray-800">Admin Panel</h2>
       </div>

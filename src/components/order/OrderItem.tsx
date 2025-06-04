@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Minus, Trash2 } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { MenuItem, OrderItem as OrderItemType } from '../../types';
 
 interface OrderItemProps {
@@ -33,29 +33,32 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
   };
   
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
+    <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
       <div className="flex items-start gap-4">
         <div className="w-24 h-24 rounded-md overflow-hidden flex-shrink-0">
           <img 
             src={item.image} 
             alt={item.name} 
             className="w-full h-full object-cover" 
+            onError={(e) => {
+              e.currentTarget.src = 'https://placehold.co/300x200?text=Food';
+            }}
           />
         </div>
         
         <div className="flex-grow">
           <div className="flex justify-between mb-1">
-            <h3 className="font-display text-lg text-dark">{item.name}</h3>
-            <span className="font-medium text-secondary-600">${item.price.toFixed(2)}</span>
+            <h3 className="font-medium text-lg text-gray-900">{item.name}</h3>
+            <span className="font-medium text-primary-600">${item.price.toFixed(2)}</span>
           </div>
           
           <p className="text-gray-600 text-sm mb-2">{item.description}</p>
           
           {item.dietary && item.dietary.length > 0 && (
-            <div className="flex gap-2 mb-3">
-              {item.dietary.map((diet) => (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {item.dietary.map((diet, index) => (
                 <span 
-                  key={diet} 
+                  key={index} 
                   className="inline-block px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded"
                 >
                   {diet}
@@ -96,7 +99,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
               >
                 <Minus size={16} />
               </button>
-              <span className="px-4 py-1 text-dark font-medium">{quantity}</span>
+              <span className="px-4 py-1 text-gray-900 font-medium">{quantity}</span>
               <button
                 onClick={incrementQuantity}
                 className="px-2 py-1 text-gray-500 hover:text-gray-700"
@@ -108,8 +111,9 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
             
             <button
               onClick={handleAddToCart}
-              className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md transition-colors"
+              className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md transition-colors flex items-center"
             >
+              <Plus size={16} className="mr-1" />
               Add to Cart
             </button>
           </div>

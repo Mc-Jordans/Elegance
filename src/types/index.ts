@@ -49,3 +49,41 @@ export interface Review {
   comment: string;
   createdAt: string;
 }
+
+// Menu types
+export type MenuCategory = 'appetizers' | 'mains' | 'desserts' | 'beverages';
+
+export interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  category: MenuCategory;
+  dietary?: string[];
+  featured?: boolean;
+  is_available?: boolean;
+}
+
+export interface OrderItem extends MenuItem {
+  quantity: number;
+  specialInstructions?: string;
+}
+
+// Location types
+export interface RestaurantLocation {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  phone: string;
+  email: string;
+  hours: {
+    [key: string]: string;
+  };
+  image: string;
+  mapUrl: string;
+  description: string;
+}

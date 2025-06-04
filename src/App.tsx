@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound';
 import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import ProductManagement from './pages/admin/ProductManagement';
+import OrderManagement from './pages/admin/OrderManagement';
 import ContentManagement from './pages/admin/ContentManagement';
 import Analytics from './pages/admin/Analytics';
 
@@ -36,6 +37,7 @@ function App() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="products" element={<ProductManagement />} />
+        <Route path="orders" element={<OrderManagement />} />
         <Route path="content" element={<ContentManagement />} />
         <Route path="analytics" element={<Analytics />} />
       </Route>

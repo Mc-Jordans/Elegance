@@ -1,13 +1,56 @@
-import React, { useState } from 'react';
-import { menuItems } from '../data/menuItems';
+import React, { useState, useEffect } from 'react';
 import OrderItem from '../components/order/OrderItem';
 import CartSummary from '../components/order/CartSummary';
 import { MenuItem, MenuCategory, OrderItem as OrderItemType } from '../types';
+import { supabase } from '../lib/supabase';
+import { toast } from 'react-hot-toast';
 
 const OrderOnline = () => {
   const [activeCategory, setActiveCategory] = useState<MenuCategory | 'all'>('all');
   const [cart, setCart] = useState<OrderItemType[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Fetch menu items from Supabase
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        setIsLoading(true);
+        
+        let query = supabase
+          .from('menu_items')
+          .select('*')
+          .eq('is_available', true);
+        
+        const { data, error } = await query.order('name');
+        
+        if (error) throw error;
+        
+        // Transform data to match MenuItem interface
+        const transformedData: MenuItem[] = data.map(item => ({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          price: item.price,
+          image: item.image_url,
+          category: item.category as MenuCategory,
+          dietary: item.dietary_info,
+          featured: item.featured,
+          is_available: item.is_available
+        }));
+        
+        setMenuItems(transformedData);
+      } catch (error) {
+        console.error('Error fetching menu items:', error);
+        toast.error('Failed to load menu items');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchMenuItems();
+  }, []);
   
   // Filter items based on category and search term
   const filteredItems = menuItems.filter(item => {
@@ -41,9 +84,11 @@ const OrderOnline = () => {
           quantity: existingItem.quantity + item.quantity,
           specialInstructions: item.specialInstructions || existingItem.specialInstructions
         };
+        toast.success(`Updated ${item.name} quantity in cart`);
         return updatedCart;
       } else {
         // Add new item
+        toast.success(`Added ${item.name} to cart`);
         return [...prevCart, item];
       }
     });
@@ -52,6 +97,7 @@ const OrderOnline = () => {
   // Remove from cart
   const handleRemoveFromCart = (id: string) => {
     setCart(prevCart => prevCart.filter(item => item.id !== id));
+    toast.success('Item removed from cart');
   };
   
   // Update quantity
@@ -67,10 +113,10 @@ const OrderOnline = () => {
     <>
       {/* Hero Banner */}
       <div className="relative h-80 bg-cover bg-center" style={{ backgroundImage: "url('https://images.pexels.com/photos/6941028/pexels-photo-6941028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }}>
-        <div className="absolute inset-0 bg-dark bg-opacity-60"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
         <div className="relative h-full flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-display text-white mb-4">Order Online</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Order Online</h1>
             <p className="text-xl text-gray-200 max-w-2xl mx-auto">Enjoy our gourmet cuisine in the comfort of your home</p>
           </div>
         </div>
@@ -111,7 +157,11 @@ const OrderOnline = () => {
             
             {/* Menu Items */}
             <div className="space-y-6">
-              {filteredItems.length > 0 ? (
+              {isLoading ? (
+                <div className="flex justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+                </div>
+              ) : filteredItems.length > 0 ? (
                 filteredItems.map(item => (
                   <OrderItem 
                     key={item.id}
@@ -144,7 +194,7 @@ const OrderOnline = () => {
             {/* Order Tracking Info (would be dynamic in a real app) */}
             {cart.length > 0 && (
               <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-display text-xl text-dark mb-4">Order Tracking</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Order Tracking</h3>
                 <div className="relative">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex flex-col items-center">
@@ -179,19 +229,19 @@ const OrderOnline = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="font-display text-xl text-dark mb-4">Delivery Information</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Delivery Information</h3>
               <p className="text-gray-600 mb-4">We deliver within a 5-mile radius of each restaurant location. Delivery times are typically 30-45 minutes, depending on order volume and distance.</p>
               <p className="text-gray-600">Delivery fee is $5.99. Free delivery on orders over $75.</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="font-display text-xl text-dark mb-4">Pickup Information</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Pickup Information</h3>
               <p className="text-gray-600 mb-4">Pickup orders are typically ready within 20-30 minutes. Please check in at the designated pickup area when you arrive.</p>
               <p className="text-gray-600">No additional fees for pickup orders.</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="font-display text-xl text-dark mb-4">Special Requests</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Special Requests</h3>
               <p className="text-gray-600 mb-4">Have dietary restrictions or allergies? Please note them in the special instructions field when ordering.</p>
               <p className="text-gray-600">For large catering orders, please call us directly at (212) 555-1234.</p>
             </div>
