@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+import { toast } from 'react-hot-toast';
 
 type Reservation = {
   id: string;
@@ -12,32 +13,45 @@ type Reservation = {
   special_requests: string | null;
   status: 'pending' | 'confirmed' | 'cancelled';
   created_at: string;
+  last_updated: string;
 };
 
 const ReservationsList = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'all' | 'pending' | 'confirmed' | 'cancelled'>('all');
 
   useEffect(() => {
     fetchReservations();
     
-    // Set up a refresh interval to check for new reservations every minute
-    const interval = setInterval(() => {
-      fetchReservations();
-    }, 60000);
+    // Set up real-time subscription
+    const subscription = supabase
+      .channel('reservations_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'reservations'
+        },
+        (payload) => {
+          console.log('Real-time update:', payload);
+          fetchReservations();
+        }
+      )
+      .subscribe();
     
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [filter]);
 
   const fetchReservations = async () => {
     try {
-      const isInitialLoad = loading;
-      if (!isInitialLoad) setLoading(true);
+      setLoading(true);
       
-      console.log('Fetching reservations...');
-      
-      // First check if the table exists
+      // First check if the table exists and user has access
       const { error: tableError } = await supabase
         .from('reservations')
         .select('id')
@@ -48,10 +62,17 @@ const ReservationsList = () => {
         throw new Error('Reservations table may not exist or you may not have access');
       }
       
-      const { data, error } = await supabase
+      let query = supabase
         .from('reservations')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('*');
+      
+      if (filter !== 'all') {
+        query = query.eq('status', filter);
+      }
+      
+      const { data, error } = await query
+        .order('date', { ascending: true })
+        .order('time', { ascending: true });
 
       if (error) {
         console.error('Fetch error:', error);
@@ -60,9 +81,11 @@ const ReservationsList = () => {
       
       console.log('Fetched reservations:', data);
       setReservations(data || []);
-    } catch (error) {
+      setError(null);
+    } catch (error: any) {
       console.error('Error fetching reservations:', error);
-      setError('Failed to load reservations');
+      setError(error.message);
+      toast.error('Failed to load reservations');
     } finally {
       setLoading(false);
     }
@@ -77,13 +100,15 @@ const ReservationsList = () => {
 
       if (error) throw error;
       
+      toast.success(`Reservation ${status} successfully`);
+      
       // Update local state
       setReservations(prev => 
         prev.map(res => res.id === id ? { ...res, status } : res)
       );
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating reservation:', error);
-      setError('Failed to update reservation status');
+      toast.error('Failed to update reservation status');
     }
   };
 
@@ -116,17 +141,40 @@ const ReservationsList = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-8">Loading reservations...</div>;
-  if (error) return <div className="text-center py-8 text-red-500">{error}</div>;
-
   return (
     <div className="bg-white shadow rounded-lg overflow-hidden">
       <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">Reservations</h3>
-        <p className="mt-1 text-sm text-gray-500">Manage customer table reservations</p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h3 className="text-lg leading-6 font-medium text-gray-900">Reservations</h3>
+            <p className="mt-1 text-sm text-gray-500">Manage customer table reservations</p>
+          </div>
+          <div className="flex gap-2">
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value as any)}
+              className="rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button
+              onClick={() => fetchReservations()}
+              className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
+            >
+              Refresh
+            </button>
+          </div>
+        </div>
       </div>
       
-      {reservations.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-8">Loading reservations...</div>
+      ) : error ? (
+        <div className="text-center py-8 text-red-500">{error}</div>
+      ) : reservations.length === 0 ? (
         <div className="text-center py-8 text-gray-500">No reservations found</div>
       ) : (
         <div className="overflow-x-auto">

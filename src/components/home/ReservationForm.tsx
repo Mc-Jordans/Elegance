@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+import { toast } from 'react-hot-toast';
 
 const ReservationForm = () => {
   const [formData, setFormData] = useState({
@@ -19,17 +20,39 @@ const ReservationForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    const errors = [];
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\+?[\d\s-]{10,}$/;
+
+    if (!emailRegex.test(formData.email)) {
+      errors.push('Please enter a valid email address');
+    }
+    if (!phoneRegex.test(formData.phone)) {
+      errors.push('Please enter a valid phone number');
+    }
+    if (new Date(formData.date) < new Date()) {
+      errors.push('Please select a future date');
+    }
+    if (!formData.time) {
+      errors.push('Please select a time');
+    }
+    if (formData.guests < 1) {
+      errors.push('Number of guests must be at least 1');
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage({ text: '', type: '' });
 
     try {
-      // Create a JavaScript alert before any async operations
-      const confirmSubmit = window.confirm("Are you sure you want to submit this reservation?");
-      if (!confirmSubmit) {
-        setIsSubmitting(false);
-        return;
+      const errors = validateForm();
+      if (errors.length > 0) {
+        throw new Error(errors.join('\n'));
       }
 
       console.log('Submitting reservation:', {
@@ -43,64 +66,55 @@ const ReservationForm = () => {
         status: 'pending'
       });
 
-      // Use a simple timeout to ensure the alert has time to show
-      setTimeout(async () => {
-        try {
-          const { error } = await supabase
-            .from('reservations')
-            .insert([
-              { 
-                name: formData.name,
-                email: formData.email,
-                phone: formData.phone,
-                date: formData.date,
-                time: formData.time,
-                guests: parseInt(formData.guests.toString()),
-                special_requests: formData.special_requests,
-                status: 'pending'
-              }
-            ]);
-
-          if (error) {
-            console.error('Supabase error:', error);
-            throw error;
+      const { data, error } = await supabase
+        .from('reservations')
+        .insert([
+          { 
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            date: formData.date,
+            time: formData.time,
+            guests: parseInt(formData.guests.toString()),
+            special_requests: formData.special_requests || null,
+            status: 'pending'
           }
+        ])
+        .select()
+        .single();
 
-          // Use a synchronous JavaScript alert
-          window.alert('Your reservation has been successfully submitted! We will contact you shortly to confirm your booking.');
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
-          setMessage({ 
-            text: 'Reservation submitted successfully! We will contact you to confirm your reservation.', 
-            type: 'success' 
-          });
-          
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            date: '',
-            time: '',
-            guests: 2,
-            special_requests: ''
-          });
-          
-          console.log('Reservation submitted successfully');
-        } catch (error) {
-          console.error('Error submitting reservation:', error);
-          window.alert('There was an error submitting your reservation. Please try again.');
-          setMessage({ 
-            text: 'There was an error submitting your reservation. Please try again.', 
-            type: 'error' 
-          });
-        } finally {
-          setIsSubmitting(false);
-        }
-      }, 100);
-    } catch (error) {
-      console.error('Error in form submission:', error);
+      console.log('Reservation submitted successfully:', data);
+      
+      toast.success('Reservation submitted successfully!');
+      setMessage({ 
+        text: 'Reservation submitted successfully! We will contact you to confirm your booking.', 
+        type: 'success' 
+      });
+      
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        date: '',
+        time: '',
+        guests: 2,
+        special_requests: ''
+      });
+    } catch (error: any) {
+      console.error('Error submitting reservation:', error);
+      toast.error(error.message || 'Failed to submit reservation');
+      setMessage({ 
+        text: error.message || 'There was an error submitting your reservation. Please try again.', 
+        type: 'error' 
+      });
+    } finally {
       setIsSubmitting(false);
     }
-  }
   };
 
   // Get tomorrow's date in YYYY-MM-DD format for min date attribute
