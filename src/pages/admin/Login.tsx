@@ -27,22 +27,22 @@ export default function AdminLogin() {
 
       if (authError) throw authError;
 
-      // Verify admin status
-      const { data: adminData, error: adminError } = await supabase
-        .from('admin_users')
+      // Verify admin status using profiles table
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
         .select('id, role')
         .eq('user_id', authData.user?.id)
         .single();
 
-      if (adminError || !adminData) {
-        throw new Error('Unauthorized access');
+      if (profileError || !profileData || profileData.role !== 'admin') {
+        throw new Error('Unauthorized access. Admin privileges required.');
       }
 
-      // Update last login
-      await supabase
-        .from('admin_users')
-        .update({ last_login: new Date().toISOString() })
-        .eq('id', adminData.id);
+      // Update last login (optional - you can add this field to profiles if needed)
+      // await supabase
+      //   .from('profiles')
+      //   .update({ last_login: new Date().toISOString() })
+      //   .eq('id', profileData.id);
 
       toast.success('Welcome back, admin!');
       navigate('/admin/dashboard');

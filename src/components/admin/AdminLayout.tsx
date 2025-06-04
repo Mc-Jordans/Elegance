@@ -17,13 +17,20 @@ export default function AdminLayout() {
       }
 
       if (user) {
-        const { data: adminUser } = await supabase
-          .from('admin_users')
-          .select('id')
-          .eq('user_id', user.id)
-          .single();
+        try {
+          // Check if user has admin role in profiles table instead of admin_users
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('user_id', user.id)
+            .single();
 
-        if (!adminUser) {
+          if (error || !profile || profile.role !== 'admin') {
+            console.log('Not an admin user:', error || 'No admin role');
+            navigate('/admin/login');
+          }
+        } catch (err) {
+          console.error('Error checking admin status:', err);
           navigate('/admin/login');
         }
       }
