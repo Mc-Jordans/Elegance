@@ -8,6 +8,10 @@ interface SignInFormData {
   password: string;
 }
 
+interface AuthError {
+  message: string;
+}
+
 export default function SignInForm() {
   const { signIn } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
@@ -18,8 +22,9 @@ export default function SignInForm() {
       setIsLoading(true);
       await signIn(data.email, data.password);
       toast.success('Successfully signed in!');
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      const authError = error as AuthError;
+      toast.error(authError.message);
     } finally {
       setIsLoading(false);
     }

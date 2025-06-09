@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import OrderItem from '../components/order/OrderItem';
 import CartSummary from '../components/order/CartSummary';
 import { MenuItem, MenuCategory, OrderItem as OrderItemType } from '../types';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient';
 import { toast } from 'react-hot-toast';
 
 const OrderOnline = () => {
@@ -84,11 +84,21 @@ const OrderOnline = () => {
           quantity: existingItem.quantity + item.quantity,
           specialInstructions: item.specialInstructions || existingItem.specialInstructions
         };
-        toast.success(`Updated ${item.name} quantity in cart`);
+        
+        // Show toast with unique ID to prevent duplicates
+        toast.success(`Updated ${item.name} quantity in cart`, {
+          id: `cart-${item.id}`,
+          duration: 2000
+        });
+        
         return updatedCart;
       } else {
         // Add new item
-        toast.success(`Added ${item.name} to cart`);
+        toast.success(`Added ${item.name} to cart`, {
+          id: `cart-${item.id}`,
+          duration: 2000
+        });
+        
         return [...prevCart, item];
       }
     });

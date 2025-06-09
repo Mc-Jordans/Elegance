@@ -2,14 +2,21 @@ import React from 'react';
 import { useCartStore } from '../../stores/cartStore';
 import { formatCurrency } from '../../utils/format';
 import { X, Plus, Minus, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CartSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const { items, savedItems, removeItem, updateQuantity, saveForLater, moveToCart } = useCartStore();
+  const navigate = useNavigate();
   
   const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
   const tax = subtotal * 0.0825; // 8.25% tax rate
   const shipping = subtotal > 100 ? 0 : 9.99;
   const total = subtotal + tax + shipping;
+
+  const handleCheckout = () => {
+    onClose();
+    navigate('/checkout');
+  };
 
   return (
     <div className={`fixed inset-0 z-50 ${isOpen ? '' : 'pointer-events-none'}`}>
@@ -149,7 +156,7 @@ const CartSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
               </div>
               
               <button
-                onClick={() => {/* Handle checkout */}}
+                onClick={handleCheckout}
                 className="w-full py-3 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
               >
                 Proceed to Checkout

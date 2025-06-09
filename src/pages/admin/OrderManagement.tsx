@@ -2,17 +2,19 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { Search, Filter, ChevronDown, Eye } from 'lucide-react';
 import { fetchOrders, updateOrderStatus } from '../../lib/admin';
+import { formatCurrency } from '../../utils/format';
 
 export default function OrderManagement() {
   const [isLoading, setIsLoading] = useState(true);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [orderDetails, setOrderDetails] = useState(null);
+  const [orderDetails, setOrderDetails] = useState<any>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [statusDropdown, setStatusDropdown] = useState<string | null>(null);
   
   const pageSize = 10;
 
@@ -35,21 +37,26 @@ export default function OrderManagement() {
     }
   };
 
-  const handleStatusChange = (e) => {
+  const handleSearch = () => {
+    setCurrentPage(1);
+    loadOrders();
+  };
+
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedStatus(e.target.value);
     setCurrentPage(1);
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const handleViewDetails = (order) => {
+  const handleViewDetails = (order: any) => {
     setOrderDetails(order);
     setShowDetailsModal(true);
   };
 
-  const handleStatusUpdate = async (orderId, newStatus) => {
+  const handleStatusUpdate = async (orderId: string, newStatus: string) => {
     try {
       await updateOrderStatus(orderId, newStatus);
       
@@ -62,12 +69,16 @@ export default function OrderManagement() {
       if (orderDetails && orderDetails.id === orderId) {
         setOrderDetails({ ...orderDetails, status: newStatus });
       }
+      
+      setStatusDropdown(null);
+      toast.success(`Order status updated to ${newStatus}`);
     } catch (error) {
       console.error('Error updating order status:', error);
+      toast.error('Failed to update order status');
     }
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
@@ -78,7 +89,7 @@ export default function OrderManagement() {
     }).format(date);
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed': return 'bg-green-100 text-green-800';
       case 'processing': return 'bg-blue-100 text-blue-800';
@@ -104,6 +115,7 @@ export default function OrderManagement() {
               placeholder="Search orders..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
           </div>
@@ -121,10 +133,11 @@ export default function OrderManagement() {
             </select>
           </div>
           <button
+            onClick={handleSearch}
             className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2"
           >
             <Filter className="h-5 w-5" />
-            More Filters
+            Apply Filters
           </button>
         </div>
       </div>
@@ -167,13 +180,13 @@ export default function OrderManagement() {
                       #{order.id.substring(0, 8)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {order.profiles?.first_name} {order.profiles?.last_name}
+                      {order.profiles?.first_name} {order.profiles?.last_name || 'Guest'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {formatDate(order.created_at)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${order.total.toFixed(2)}
+                      {formatCurrency(order.total)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="relative inline-block text-left">
@@ -184,16 +197,37 @@ export default function OrderManagement() {
                             id={`status-menu-${order.id}`}
                             aria-expanded="true"
                             aria-haspopup="true"
-                            onClick={() => {
-                              // Toggle dropdown menu
-                            }}
+                            onClick={() => setStatusDropdown(statusDropdown === order.id ? null : order.id)}
                           >
                             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                             <ChevronDown className="h-4 w-4 ml-1" />
                           </button>
                         </div>
                         
-                        {/* Status dropdown menu would go here */}
+                        {statusDropdown === order.id && (
+                          <div 
+                            className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+                            role="menu"
+                            aria-orientation="vertical"
+                            aria-labelledby={`status-menu-${order.id}`}
+                          >
+                            <div className="py-1" role="none">
+                              {['pending', 'processing', 'completed', 'cancelled'].map((status) => (
+                                <button
+                                  key={status}
+                                  className={`block w-full text-left px-4 py-2 text-sm ${
+                                    order.status === status ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                                  } hover:bg-gray-50`}
+                                  role="menuitem"
+                                  onClick={() => handleStatusUpdate(order.id, status)}
+                                  disabled={order.status === status}
+                                >
+                                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -316,16 +350,16 @@ export default function OrderManagement() {
                     {orderDetails.status.charAt(0).toUpperCase() + orderDetails.status.slice(1)}
                   </span>
                 </p>
-                <p className="mt-1 text-sm text-gray-900">Total: ${orderDetails.total.toFixed(2)}</p>
+                <p className="mt-1 text-sm text-gray-900">Total: {formatCurrency(orderDetails.total)}</p>
               </div>
               
               <div>
                 <h4 className="text-sm font-medium text-gray-500">Customer Information</h4>
                 <p className="mt-1 text-sm text-gray-900">
-                  Name: {orderDetails.profiles?.first_name} {orderDetails.profiles?.last_name}
+                  Name: {orderDetails.profiles?.first_name} {orderDetails.profiles?.last_name || 'Guest'}
                 </p>
                 <p className="mt-1 text-sm text-gray-900">Email: {orderDetails.profiles?.email || 'N/A'}</p>
-                <p className="mt-1 text-sm text-gray-900">Phone: {orderDetails.profiles?.phone || 'N/A'}</p>
+                <p className="mt-1 text-sm text-gray-900">Phone: {orderDetails.contact_phone || 'N/A'}</p>
               </div>
             </div>
             
@@ -347,16 +381,19 @@ export default function OrderManagement() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {orderDetails.items && orderDetails.items.map((item, index) => (
+                    {orderDetails.items && orderDetails.items.map((item: any, index: number) => (
                       <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           {item.name}
+                          {item.specialInstructions && (
+                            <p className="text-xs text-gray-500 italic mt-1">"{item.specialInstructions}"</p>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {item.quantity}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          {formatCurrency(item.price * item.quantity)}
                         </td>
                       </tr>
                     ))}
@@ -367,7 +404,7 @@ export default function OrderManagement() {
                         Total
                       </td>
                       <td className="px-6 py-3 text-right text-sm font-medium text-gray-900">
-                        ${orderDetails.total.toFixed(2)}
+                        {formatCurrency(orderDetails.total)}
                       </td>
                     </tr>
                   </tfoot>
@@ -383,7 +420,7 @@ export default function OrderManagement() {
                   <p>{orderDetails.delivery_address.city}, {orderDetails.delivery_address.state} {orderDetails.delivery_address.zip}</p>
                 </div>
               ) : (
-                <p className="text-sm text-gray-500">No delivery address provided</p>
+                <p className="text-sm text-gray-500">Pickup order (no delivery address)</p>
               )}
             </div>
             

@@ -1,10 +1,15 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Menu, X, ChefHat } from 'lucide-react';
+import { Menu, X, ChefHat, User } from 'lucide-react';
+import { useAuthContext } from '../../contexts/AuthContext';
+import AuthModal from '../auth/AuthModal';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const { user, signOut } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +43,21 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   
+  const handleAuthClick = () => {
+    if (user) {
+      // Sign out the user
+      signOut();
+    } else {
+      setAuthMode('login');
+      setShowAuthModal(true);
+    }
+  };
+
+  const handleSignUpClick = () => {
+    setAuthMode('register');
+    setShowAuthModal(true);
+  };
+  
   const navLinkClasses = ({ isActive }: { isActive: boolean }) => 
     `relative px-3 py-2 transition-colors hover:text-secondary-500 ${
       isActive ? 'text-secondary-500' : 'text-current'
@@ -49,6 +69,12 @@ const Navbar = () => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-dark bg-opacity-95 text-white shadow-lg' : 'bg-transparent text-white'
     }`}>
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        mode={authMode}
+      />
+      
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <NavLink to="/" className="flex items-center space-x-2 font-display text-2xl">
@@ -59,7 +85,7 @@ const Navbar = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <NavLink to="/" className={navLinkClasses}>Fie (Home)</NavLink>
             <NavLink to="/menu" className={navLinkClasses}>Aduane (Menu)</NavLink>
-            <NavLink to="/order" className={navLinkClasses}>Order Online</NavLink>
+            <NavLink to="/order-online" className={navLinkClasses}>Order Online</NavLink>
             <NavLink to="/locations" className={navLinkClasses}>Locations</NavLink>
             <NavLink to="/feedback" className={navLinkClasses}>Feedback</NavLink>
             <button 
@@ -68,15 +94,48 @@ const Navbar = () => {
             >
               Reserve Table
             </button>
+            <div className="flex items-center space-x-2">
+              {/* {!user && (
+                <button
+                  onClick={handleSignUpClick}
+                  className="text-sm text-white hover:text-secondary-500 transition-colors"
+                >
+                  Sign Up
+                </button>
+              )} */}
+              <button
+                onClick={handleAuthClick}
+                className="p-2 rounded-full hover:bg-gray-700 transition-colors flex items-center"
+                aria-label={user ? "Account" : "Sign In"}
+              >
+                <User size={20} />
+                {/* {user ? (
+                  <span className="ml-1 w-2 h-2 bg-green-500 rounded-full"></span>
+                ) : (
+                  <span className="ml-1 text-sm">Sign In</span>
+                )} */}
+              </button>
+            </div>
           </nav>
           
-          <button 
-            className="md:hidden text-current"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center space-x-4">
+            <button
+              onClick={handleAuthClick}
+              className="p-2 rounded-full hover:bg-gray-700 transition-colors"
+              aria-label={user ? "Account" : "Sign In"}
+            >
+              <User size={20} />
+              {user && <span className="ml-1 w-2 h-2 bg-green-500 rounded-full absolute top-0 right-0"></span>}
+            </button>
+            
+            <button 
+              className="text-current"
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
       
@@ -99,7 +158,7 @@ const Navbar = () => {
                 Aduane (Menu)
               </NavLink>
               <NavLink 
-                to="/order" 
+                to="/order-online" 
                 className={({ isActive }) => `block py-2 px-4 ${isActive ? 'text-secondary-500' : 'text-current'} hover:text-secondary-500`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -119,6 +178,17 @@ const Navbar = () => {
               >
                 Feedback
               </NavLink>
+              {!user && (
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    handleSignUpClick();
+                  }}
+                  className="block py-2 px-4 text-left hover:text-secondary-500"
+                >
+                  Sign Up
+                </button>
+              )}
               <button 
                 className="block w-full py-2 px-4 mt-2 rounded-md bg-secondary-500 text-center text-dark font-medium"
                 onClick={(e) => {

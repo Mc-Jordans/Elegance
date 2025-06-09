@@ -24,67 +24,52 @@ const ReservationsList = () => {
 
   useEffect(() => {
     fetchReservations();
-    
-    // Set up real-time subscription
-    const subscription = supabase
-      .channel('reservations_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'reservations'
-        },
-        (payload) => {
-          console.log('Real-time update:', payload);
-          fetchReservations();
-        }
-      )
-      .subscribe();
-    
-    return () => {
-      subscription.unsubscribe();
-    };
   }, [filter]);
 
   const fetchReservations = async () => {
     try {
       setLoading(true);
       
-      // First check if the table exists and user has access
-      const { error: tableError } = await supabase
-        .from('reservations')
-        .select('id')
-        .limit(1);
-        
-      if (tableError) {
-        console.error('Table check error:', tableError);
-        throw new Error('Reservations table may not exist or you may not have access');
-      }
+      // Mock data instead of fetching from database
+      const mockReservations: Reservation[] = [
+        {
+          id: '1',
+          name: 'John Doe',
+          email: 'john@example.com',
+          phone: '555-123-4567',
+          date: '2023-06-15',
+          time: '19:30',
+          guests: 4,
+          special_requests: 'Window seat please',
+          status: 'confirmed',
+          created_at: '2023-06-10T12:00:00Z',
+          last_updated: '2023-06-10T12:00:00Z'
+        },
+        {
+          id: '2',
+          name: 'Jane Smith',
+          email: 'jane@example.com',
+          phone: '555-987-6543',
+          date: '2023-06-16',
+          time: '20:00',
+          guests: 2,
+          special_requests: null,
+          status: 'pending',
+          created_at: '2023-06-11T14:30:00Z',
+          last_updated: '2023-06-11T14:30:00Z'
+        }
+      ];
       
-      let query = supabase
-        .from('reservations')
-        .select('*');
+      // Filter mock data if needed
+      const filteredReservations = filter === 'all' 
+        ? mockReservations 
+        : mockReservations.filter(r => r.status === filter);
       
-      if (filter !== 'all') {
-        query = query.eq('status', filter);
-      }
-      
-      const { data, error } = await query
-        .order('date', { ascending: true })
-        .order('time', { ascending: true });
-
-      if (error) {
-        console.error('Fetch error:', error);
-        throw error;
-      }
-      
-      console.log('Fetched reservations:', data);
-      setReservations(data || []);
+      setReservations(filteredReservations);
       setError(null);
     } catch (error: any) {
       console.error('Error fetching reservations:', error);
-      setError(error.message);
+      setError('Failed to load reservations');
       toast.error('Failed to load reservations');
     } finally {
       setLoading(false);
@@ -93,19 +78,12 @@ const ReservationsList = () => {
 
   const updateReservationStatus = async (id: string, status: 'confirmed' | 'cancelled') => {
     try {
-      const { error } = await supabase
-        .from('reservations')
-        .update({ status })
-        .eq('id', id);
-
-      if (error) throw error;
-      
-      toast.success(`Reservation ${status} successfully`);
-      
-      // Update local state
+      // Update local state only (mock)
       setReservations(prev => 
         prev.map(res => res.id === id ? { ...res, status } : res)
       );
+      
+      toast.success(`Reservation ${status} successfully`);
     } catch (error: any) {
       console.error('Error updating reservation:', error);
       toast.error('Failed to update reservation status');

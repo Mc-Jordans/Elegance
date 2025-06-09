@@ -1,6 +1,8 @@
 import React from 'react';
 import { Trash2 } from 'lucide-react';
 import { OrderItem } from '../../types';
+import { useNavigate } from 'react-router-dom';
+import { useCartStore } from '../../stores/cartStore';
 
 interface CartSummaryProps {
   items: OrderItem[];
@@ -9,12 +11,34 @@ interface CartSummaryProps {
 }
 
 const CartSummary: React.FC<CartSummaryProps> = ({ items, onRemoveItem, onUpdateQuantity }) => {
+  const navigate = useNavigate();
+  const { addItem } = useCartStore();
+  
   // Calculate subtotal
   const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
   const taxRate = 0.0825; // 8.25%
   const tax = subtotal * taxRate;
   const deliveryFee = items.length > 0 ? 5.99 : 0;
   const total = subtotal + tax + deliveryFee;
+  
+  const handleCheckout = () => {
+    // Save cart items to global cart store before navigating
+    items.forEach(item => {
+      addItem({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        image: item.image,
+        category: item.category,
+        stock: 999, // Default value
+        rating: 5, // Default value
+        reviews: 0 // Default value
+      }, item.quantity);
+    });
+    
+    navigate('/checkout');
+  };
   
   if (items.length === 0) {
     return (
@@ -104,6 +128,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ items, onRemoveItem, onUpdate
       
       {/* Checkout Button */}
       <button
+        onClick={handleCheckout}
         className="w-full py-3 mt-6 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md transition-colors"
       >
         Proceed to Checkout

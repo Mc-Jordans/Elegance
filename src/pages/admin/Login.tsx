@@ -1,19 +1,32 @@
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { ChefHat } from 'lucide-react';
+import { checkAdminAccess } from '../../lib/admin';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [session, setSession] = useState<any>(null);
+  const navigate = useNavigate();
 
   // Check if user is already logged in
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    setSession(session);
-  });
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session?.user) {
+        // Check if user has admin access
+        const isAdmin = await checkAdminAccess(session.user.id);
+        if (isAdmin) {
+          navigate('/admin/dashboard');
+        }
+      }
+    };
+    
+    checkSession();
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,18 +40,23 @@ const Login = () => {
       });
 
       if (error) throw error;
-      setSession(data.session);
+      
+      if (data.user) {
+        // Check if user has admin access
+        const isAdmin = await checkAdminAccess(data.user.id);
+        
+        if (isAdmin) {
+          navigate('/admin/dashboard');
+        } else {
+          throw new Error('You do not have admin privileges');
+        }
+      }
     } catch (error: any) {
       setError(error.message || 'An error occurred during login');
     } finally {
       setLoading(false);
     }
   };
-
-  // If already logged in, redirect to dashboard
-  if (session) {
-    return <Navigate to="/admin/dashboard" replace />;
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">

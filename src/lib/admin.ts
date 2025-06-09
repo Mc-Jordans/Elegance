@@ -21,17 +21,19 @@ export const checkAdminAccess = async (userId: string) => {
 // Dashboard stats
 export const fetchDashboardStats = async () => {
   try {
-    // Only fetch from tables that exist
-    const [usersResult, productsResult] = await Promise.all([
+    // Fetch counts from all relevant tables
+    const [usersResult, productsResult, ordersResult, pendingOrdersResult] = await Promise.all([
       supabase.from('profiles').select('*', { count: 'exact', head: true }),
-      supabase.from('menu_items').select('*', { count: 'exact', head: true })
+      supabase.from('menu_items').select('*', { count: 'exact', head: true }),
+      supabase.from('orders').select('*', { count: 'exact', head: true }),
+      supabase.from('orders').select('*', { count: 'exact', head: true }).eq('status', 'pending')
     ]);
 
     return {
-      totalOrders: 0, // Orders table doesn't exist yet
+      totalOrders: ordersResult.count || 0,
       totalUsers: usersResult.count || 0,
       totalProducts: productsResult.count || 0,
-      pendingIssues: 0 // You can implement this based on your business logic
+      pendingIssues: pendingOrdersResult.count || 0 // Using pending orders as "issues"
     };
   } catch (error) {
     console.error('Error fetching dashboard stats:', error);
@@ -147,7 +149,7 @@ export const fetchOrders = async (
   try {
     let query = supabase
       .from('orders')
-      .select('*, profiles(first_name, last_name)', { count: 'exact' });
+      .select('*', { count: 'exact' }); // Removed profiles join
     
     if (status) {
       query = query.eq('status', status);
@@ -163,8 +165,28 @@ export const fetchOrders = async (
     
     if (error) throw error;
     
+    // Format orders for display
+    const formattedOrders = data?.map(order => {
+      // Parse JSON fields if they're stored as strings
+      const items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+      const deliveryAddress = typeof order.delivery_address === 'string' 
+        ? JSON.parse(order.delivery_address) 
+        : order.delivery_address;
+      
+      return {
+        ...order,
+        items,
+        delivery_address: deliveryAddress,
+        // Add placeholder profile data since we can't join with profiles
+        profiles: {
+          first_name: 'Guest',
+          last_name: ''
+        }
+      };
+    }) || [];
+    
     return {
-      orders: data || [],
+      orders: formattedOrders,
       totalCount: count || 0,
       currentPage: page,
       totalPages: Math.ceil((count || 0) / pageSize)

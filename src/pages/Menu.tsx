@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient';
 
 interface MenuItem {
   id: string;
@@ -58,8 +58,11 @@ export default function Menu() {
   };
   
   const handleAddToOrder = (item: MenuItem) => {
-    // Navigate to order page with the selected item
-    window.location.href = `/order?item=${item.id}`;
+    // Add item to cart and navigate to order-online page
+    import('../utils/menuUtils').then(({ addMenuItemToCart }) => {
+      addMenuItemToCart(item);
+      window.location.href = `/order-online`;
+    });
   };
 
   return (
