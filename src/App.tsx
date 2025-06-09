@@ -41,8 +41,7 @@ function App() {
           <Route path="order-confirmation/:orderId" element={<OrderConfirmation />} />
           <Route path="locations" element={<Locations />} />
           <Route path="feedback" element={<Feedback />} />
-          // In App.tsx, add this route
-         < Route path="/profile" element={<ProfilePage />} />
+                    <Route path="profile" element={<ProfilePage />} />
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="*" element={<NotFound />} />
         </Route>

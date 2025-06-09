@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-  const { user, signOut } = useAuthContext();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,8 +45,8 @@ const Navbar = () => {
   
   const handleAuthClick = () => {
     if (user) {
-      // Sign out the user
-      signOut();
+      // Navigate to profile page when user is logged in
+      navigate('/profile');
     } else {
       setAuthMode('login');
       setShowAuthModal(true);

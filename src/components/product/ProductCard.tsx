@@ -1,6 +1,7 @@
 import React from 'react';
 import { Product } from '../../types';
 import { useCartStore } from '../../stores/cartStore';
+import { useWishlistStore } from '../../stores/wishlistStore';
 import { formatCurrency } from '../../utils/format';
 import { Star, ShoppingCart, Heart } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -12,6 +13,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [quantity, setQuantity] = React.useState(1);
   const addItem = useCartStore((state) => state.addItem);
+  const { addItem: addToWishlist, isInWishlist, removeItem: removeFromWishlist } = useWishlistStore();
 
   const handleAddToCart = () => {
     if (quantity > product.stock) {
@@ -21,6 +23,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     
     addItem(product, quantity);
     toast.success('Added to cart');
+  };
+  
+  const handleWishlistToggle = () => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      toast.success('Removed from wishlist');
+    } else {
+      addToWishlist(product);
+      toast.success('Added to wishlist');
+    }
   };
 
   return (
@@ -32,10 +44,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <button
+          onClick={handleWishlistToggle}
           className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
-          aria-label="Add to wishlist"
+          aria-label={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
         >
-          <Heart className="h-5 w-5 text-gray-600" />
+          <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
         </button>
       </div>
       
