@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import OrderItem from '../components/order/OrderItem';
 import CartSummary from '../components/order/CartSummary';
 import { MenuItem, MenuCategory, OrderItem as OrderItemType } from '../types';
@@ -18,7 +18,7 @@ const OrderOnline = () => {
       try {
         setIsLoading(true);
         
-        let query = supabase
+        const query = supabase
           .from('menu_items')
           .select('*')
           .eq('is_available', true);
@@ -259,7 +259,7 @@ const OrderOnline = () => {
         </div>
       </section>
       
-      <style jsx="true">{`
+      <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }

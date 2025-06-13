@@ -90,8 +90,8 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
             </div>
           )}
           
-          <div className="flex justify-between items-center mt-3">
-            <div className="flex items-center border border-gray-300 rounded-md">
+          <div className="flex sm:flex-row justify-between lg:px-20 items-center gap-4  mt-4 -ml-28">  
+            <div className="flex items-center border border-gray-300 bg-gray-100 rounded-md">
               <button
                 onClick={decrementQuantity}
                 className="px-2 py-1 text-gray-500 hover:text-gray-700"
@@ -111,7 +111,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
             
             <button
               onClick={handleAddToCart}
-              className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md transition-colors flex items-center"
+              className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md transition-colors flex  relative items-center "
             >
               <Plus size={16} className="mr-1" />
               Add to Cart
