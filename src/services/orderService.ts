@@ -17,6 +17,9 @@ interface OrderData {
   total: number;
 }
 
+// Valid order statuses
+export const VALID_ORDER_STATUSES = ['pending', 'processing', 'delivered', 'cancelled'];
+
 export const createOrder = async (orderData: OrderData) => {
   try {
     // Get current user (if logged in)
@@ -99,6 +102,31 @@ export const getUserOrders = async () => {
     return data || [];
   } catch (error) {
     console.error('Error fetching user orders:', error);
+    throw error;
+  }
+};
+
+export const updateOrderStatus = async (orderId: string, status: string) => {
+  try {
+    // Validate status
+    if (!VALID_ORDER_STATUSES.includes(status)) {
+      throw new Error(`Invalid status: ${status}`);
+    }
+    
+    const { data, error } = await supabase
+      .from('orders')
+      .update({ 
+        status,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', orderId)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error updating order status:', error);
     throw error;
   }
 };

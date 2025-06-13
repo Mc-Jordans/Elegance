@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const ReservationForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,7 +15,6 @@ const ReservationForm = () => {
     special_requests: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState({ text: '', type: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -47,7 +48,6 @@ const ReservationForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setMessage({ text: '', type: '' });
 
     try {
       const errors = validateForm();
@@ -55,18 +55,7 @@ const ReservationForm = () => {
         throw new Error(errors.join('\n'));
       }
 
-      console.log('Submitting reservation:', {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        date: formData.date,
-        time: formData.time,
-        guests: parseInt(formData.guests.toString()),
-        special_requests: formData.special_requests,
-        status: 'pending'
-      });
-
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('reservations')
         .insert([
           { 
@@ -77,25 +66,22 @@ const ReservationForm = () => {
             time: formData.time,
             guests: parseInt(formData.guests.toString()),
             special_requests: formData.special_requests || null,
-            status: 'pending'
+            status: 'pending',
+            created_at: new Date().toISOString()
           }
-        ])
-        .select()
-        .single();
+        ]);
 
       if (error) {
-        console.error('Supabase error:', error);
         throw error;
       }
-
-      console.log('Reservation submitted successfully:', data);
       
-      toast.success('Reservation submitted successfully!');
-      setMessage({ 
-        text: 'Reservation submitted successfully! We will contact you to confirm your booking.', 
-        type: 'success' 
+      // Show toast notification
+      toast.success('Reservation submitted successfully! We will contact you to confirm your booking.', {
+        duration: 5000,
+        position: 'top-center'
       });
       
+      // Reset form
       setFormData({
         name: '',
         email: '',
@@ -105,12 +91,14 @@ const ReservationForm = () => {
         guests: 2,
         special_requests: ''
       });
+      
+      // Stay on the same page but scroll to top
+      window.scrollTo(0, 0);
     } catch (error: any) {
       console.error('Error submitting reservation:', error);
-      toast.error(error.message || 'Failed to submit reservation');
-      setMessage({ 
-        text: error.message || 'There was an error submitting your reservation. Please try again.', 
-        type: 'error' 
+      toast.error(error.message || 'Failed to submit reservation', {
+        duration: 5000,
+        position: 'top-center'
       });
     } finally {
       setIsSubmitting(false);
@@ -127,11 +115,7 @@ const ReservationForm = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-display text-center mb-12">Reserve Your Table</h2>
         
-        {message.text && (
-          <div className={`mb-6 p-4 rounded ${message.type === 'success' ? 'bg-green-800' : 'bg-red-800'}`}>
-            {message.text}
-          </div>
-        )}
+
         
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">

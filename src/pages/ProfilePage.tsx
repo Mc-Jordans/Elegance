@@ -7,6 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
 import { useWishlist } from '../hooks/useWishlist';
 import { ShoppingCart, Heart, User, Package, LogOut, Edit2, Save, X, Phone, MapPin, Mail } from 'lucide-react';
+import OrderHistory from '../components/order/OrderHistory';
 
 const ProfilePage = () => {
   const { user, signOut } = useAuthContext();
@@ -413,13 +414,7 @@ const ProfilePage = () => {
             {activeTab === 'orders' && (
               <div className="bg-white shadow-md rounded-lg p-6">
                 <h2 className="text-xl font-semibold mb-6">My Orders</h2>
-                <div className="text-center py-8 text-gray-500">
-                  <Package size={48} className="mx-auto mb-4 text-gray-400" />
-                  <p>You haven't placed any orders yet.</p>
-                  <Link to="/order-online" className="mt-4 inline-block px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700">
-                    Start Ordering
-                  </Link>
-                </div>
+                <OrderHistory />
               </div>
             )}
             

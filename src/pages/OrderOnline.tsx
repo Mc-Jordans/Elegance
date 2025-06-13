@@ -85,19 +85,23 @@ const OrderOnline = () => {
           specialInstructions: item.specialInstructions || existingItem.specialInstructions
         };
         
-        // Show toast with unique ID to prevent duplicates
-        toast.success(`Updated ${item.name} quantity in cart`, {
-          id: `cart-${item.id}`,
-          duration: 2000
-        });
+        // Use setTimeout to avoid state updates during render
+        setTimeout(() => {
+          toast.success(`Updated ${item.name} quantity in cart`, {
+            id: `cart-${item.id}`,
+            duration: 2000
+          });
+        }, 0);
         
         return updatedCart;
       } else {
         // Add new item
-        toast.success(`Added ${item.name} to cart`, {
-          id: `cart-${item.id}`,
-          duration: 2000
-        });
+        setTimeout(() => {
+          toast.success(`Added ${item.name} to cart`, {
+            id: `cart-${item.id}`,
+            duration: 2000
+          });
+        }, 0);
         
         return [...prevCart, item];
       }
@@ -107,7 +111,10 @@ const OrderOnline = () => {
   // Remove from cart
   const handleRemoveFromCart = (id: string) => {
     setCart(prevCart => prevCart.filter(item => item.id !== id));
-    toast.success('Item removed from cart');
+    // Use setTimeout to avoid state updates during render
+    setTimeout(() => {
+      toast.success('Item removed from cart');
+    }, 0);
   };
   
   // Update quantity

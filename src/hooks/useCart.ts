@@ -17,21 +17,26 @@ export const useCart = () => {
   const addToCart = (product: Product, quantity: number = 1) => {
     addItem(product, quantity);
     
-    // Show toast with unique ID to prevent duplicates
-    toast.success(`Added ${product.name} to cart`, {
-      id: `cart-${product.id}`,
-      duration: 2000
-    });
+    // Show toast with setTimeout to prevent render phase updates
+    setTimeout(() => {
+      toast.success(`Added ${product.name} to cart`, {
+        id: `cart-${product.id}`,
+        duration: 2000
+      });
+    }, 0);
   };
   
   // Remove item from cart with toast notification
   const removeFromCart = (productId: string, productName: string) => {
     removeItem(productId);
     
-    toast.success(`Removed ${productName} from cart`, {
-      id: `remove-${productId}`,
-      duration: 2000
-    });
+    // Show toast with setTimeout to prevent render phase updates
+    setTimeout(() => {
+      toast.success(`Removed ${productName} from cart`, {
+        id: `remove-${productId}`,
+        duration: 2000
+      });
+    }, 0);
   };
   
   // Update item quantity

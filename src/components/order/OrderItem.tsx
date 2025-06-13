@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { MenuItem, OrderItem as OrderItemType } from '../../types';
+import { useAuthContext } from '../../contexts/AuthContext';
+import AuthModal from '../auth/AuthModal';
 
 interface OrderItemProps {
   item: MenuItem;
@@ -8,9 +10,12 @@ interface OrderItemProps {
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
+  const { user } = useAuthContext();
   const [quantity, setQuantity] = useState(1);
   const [specialInstructions, setSpecialInstructions] = useState('');
   const [showOptions, setShowOptions] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   
   const incrementQuantity = () => {
     setQuantity(prev => Math.min(prev + 1, 10));
@@ -21,6 +26,13 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
   };
   
   const handleAddToCart = () => {
+    // Check if user is logged in
+    if (!user) {
+      setAuthMode('login');
+      setShowAuthModal(true);
+      return;
+    }
+    
     const orderItem: OrderItemType = {
       ...item,
       quantity,
@@ -34,6 +46,11 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, onAddToCart }) => {
   
   return (
     <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        mode={authMode}
+      />
       <div className="flex items-start gap-4">
         <div className="w-24 h-24 rounded-md overflow-hidden flex-shrink-0">
           <img 
